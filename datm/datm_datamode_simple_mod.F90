@@ -311,32 +311,41 @@ contains
       !--- (iii) RADIATION DATA ---
 
       !--- fabricate required swdn components from net swdn ---
-      Faxa_swvdr(n) = strm_swdn(n)*(0.28_R8)
-      Faxa_swndr(n) = strm_swdn(n)*(0.31_R8)
-      Faxa_swvdf(n) = strm_swdn(n)*(0.24_R8)
-      Faxa_swndf(n) = strm_swdn(n)*(0.17_R8)
-      !--- compute net short-wave based on LY08 latitudinally-varying albedo ---
-      avg_alb = ( 0.069 - 0.011*cos(2.0_R8*yc(n)*degtorad ) )
-      Faxa_swnet(n) = strm_swdn(n)*(1.0_R8 - avg_alb)
-      !--- corrections to GISS sswdn for heat budget balancing ---
-      factor = 1.0_R8
-      if      ( -60.0_R8 < yc(n) .and. yc(n) < -50.0_R8 ) then
-         factor = 1.0_R8 - (yc(n) + 60.0_R8)*(0.05_R8/10.0_R8)
-      else if ( -50.0_R8 < yc(n) .and. yc(n) <  30.0_R8 ) then
-         factor = 0.95_R8
-      else if (  30.0_R8 < yc(n) .and. yc(n) <  40._R8 ) then
-         factor = 1.0_R8 - (40.0_R8 - yc(n))*(0.05_R8/10.0_R8)
-      endif
-      Faxa_swnet(n) = Faxa_swnet(n)*factor
-      Faxa_swvdr(n) = Faxa_swvdr(n)*factor
-      Faxa_swndr(n) = Faxa_swndr(n)*factor
-      Faxa_swvdf(n) = Faxa_swvdf(n)*factor
-      Faxa_swndf(n) = Faxa_swndf(n)*factor
-      !--- correction to GISS lwdn in Arctic ---
-      if ( yc(n) > 60._R8 ) then
-         factor = MIN(1.0_R8, 0.1_R8*(yc(n)-60.0_R8) )
-         Faxa_lwdn(n) = Faxa_lwdn(n) + factor * dLWarc
-      endif
+!PSH begin
+!Comment out lines below and replace by setting fluxes to 0, as with precipitation above)
+!      Faxa_swvdr(n) = strm_swdn(n)*(0.28_R8)
+!      Faxa_swndr(n) = strm_swdn(n)*(0.31_R8)
+!      Faxa_swvdf(n) = strm_swdn(n)*(0.24_R8)
+!      Faxa_swndf(n) = strm_swdn(n)*(0.17_R8)
+!      !--- compute net short-wave based on LY08 latitudinally-varying albedo ---
+!      avg_alb = ( 0.069 - 0.011*cos(2.0_R8*yc(n)*degtorad ) )
+!      Faxa_swnet(n) = strm_swdn(n)*(1.0_R8 - avg_alb)
+!      !--- corrections to GISS sswdn for heat budget balancing ---
+!      factor = 1.0_R8
+!      if      ( -60.0_R8 < yc(n) .and. yc(n) < -50.0_R8 ) then
+!         factor = 1.0_R8 - (yc(n) + 60.0_R8)*(0.05_R8/10.0_R8)
+!      else if ( -50.0_R8 < yc(n) .and. yc(n) <  30.0_R8 ) then
+!         factor = 0.95_R8
+!      else if (  30.0_R8 < yc(n) .and. yc(n) <  40._R8 ) then
+!         factor = 1.0_R8 - (40.0_R8 - yc(n))*(0.05_R8/10.0_R8)
+!      endif
+!      Faxa_swnet(n) = Faxa_swnet(n)*factor
+!      Faxa_swvdr(n) = Faxa_swvdr(n)*factor
+!      Faxa_swndr(n) = Faxa_swndr(n)*factor
+!      Faxa_swvdf(n) = Faxa_swvdf(n)*factor
+!      Faxa_swndf(n) = Faxa_swndf(n)*factor
+!      !--- correction to GISS lwdn in Arctic ---
+!      if ( yc(n) > 60._R8 ) then
+!         factor = MIN(1.0_R8, 0.1_R8*(yc(n)-60.0_R8) )
+!         Faxa_lwdn(n) = Faxa_lwdn(n) + factor * dLWarc
+!      endif
+      Faxa_swvdr(n) = 0.0_R8            ! set default to zero
+      Faxa_swndr(n) = 0.0_R8            ! set default to zero
+      Faxa_swvdf(n) = 0.0_R8            ! set default to zero
+      Faxa_swndf(n) = 0.0_R8            ! set default to zero
+      Faxa_swnet(n) = 0.0_R8            ! set default to zero
+      Faxa_lwdn(n)  = 0.0_R8            ! set default to zero
+!PSH end
 
     enddo   ! lsize
 
